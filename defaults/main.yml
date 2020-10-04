@@ -1,0 +1,9 @@
+---
+tftp_service_name: tftp-docker
+uninstall_service: false
+tftp_host_port: 69
+tftp_container_port: 69
+tftp_port_type: udp
+host_dir: /var/docker/tftpboot
+container_dir: /tftpboot
+docker_image: vimagick/tftpd

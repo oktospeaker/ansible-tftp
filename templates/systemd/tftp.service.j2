@@ -1,0 +1,18 @@
+[Unit]
+Description=TFTP-server docker container
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStartPre=-/usr/bin/docker rm {{ tftp_service_name }}
+ExecStart=/usr/bin/docker run \
+        --rm \
+        -p {{ tftp_host_port }}:{{ tftp_container_port }}/{{ tftp_port_type }} \
+        -v {{ host_dir }}:{{ container_dir }} \
+        --name {{ tftp_service_name }} \
+        {{ docker_image }}
+ExecStop=/usr/bin/docker stop -t 1 {{ tftp_service_name }}
+
+[Install]
+WantedBy=multi-user.target
