@@ -16,4 +16,4 @@ docker_image                    |       vimagick/tftpd          |   Docker image
 
 ### How to use
     - installation: just start the role
-    - uninstallation: add --extra-vars "uninstall_service=true"
+    - uninstallation: add --extra-vars "uninstall_service=true" (WARNING: It doesn't delete directory /var/docker/tftpboot on host!!)
