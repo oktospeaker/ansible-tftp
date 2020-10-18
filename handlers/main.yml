@@ -10,28 +10,28 @@
     name: "{{ tftp_service_name }}"
     state: restarted
     enabled: yes
-  notify: firewall-cmd add-port
+  notify: "{{ tftp_service_name }}: firewall-cmd add-port"
 
-- name: firewall-cmd add-port
+- name: "{{ tftp_service_name }}: firewall-cmd add-port"
   become: true
   shell: firewall-cmd --zone=public --permanent --add-port={{ tftp_host_port }}/{{ tftp_port_type }}
-  notify: service firewalld reload  
+  notify: "{{ tftp_service_name }}: service firewalld reload" 
 
 - name: "{{ tftp_service_name }} restart uninstall"
   become: true
   shell: systemctl daemon-reload
-  notify: reset-failed
+  notify: "{{ tftp_service_name }}: reset-failed"
 
-- name: reset-failed
+- name: "{{ tftp_service_name }}: reset-failed"
   become: true
   shell: systemctl reset-failed
-  notify: firewall-cmd remove-port
+  notify: "{{ tftp_service_name }}: firewall-cmd remove-port"
 
-- name: firewall-cmd remove-port
+- name: "{{ tftp_service_name }}: firewall-cmd remove-port"
   become: true
   shell: firewall-cmd --zone=public --permanent --remove-port={{ tftp_host_port }}/{{ tftp_port_type }}
-  notify: service firewalld reload
+  notify: "{{ tftp_service_name }}: service firewalld reload"
 
-- name: service firewalld reload
+- name: "{{ tftp_service_name }}: service firewalld reload"
   become: true
   shell: systemctl restart firewalld
